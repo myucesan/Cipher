@@ -5,6 +5,9 @@
 .idea
 out
 *.iml
+.DS_Store
+src/META-INF/
+
 
 # Log file
 *.log
