@@ -13,7 +13,7 @@
             <Font size="36.0" />
          </font>
       </Text>
-      <TextField fx:id="n" layoutX="258.0" layoutY="136.0" />
+      <TextField fx:id="givenN" layoutX="258.0" layoutY="136.0" />
       <Text layoutX="132.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Give a number n:" />
       <Button fx:id="step1" layoutX="137.0" layoutY="255.0" mnemonicParsing="false" onMouseClicked="#s1_CalculatePandQ" text="Step 1" />
       <Text layoutX="132.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generated p for n:" />
