@@ -13,12 +13,15 @@
             <Font size="36.0" />
          </font>
       </Text>
-      <TextField fx:id="givenN" layoutX="258.0" layoutY="136.0" />
+      <TextField fx:id="givenN" layoutX="258.0" layoutY="136.0" text="3233" />
       <Text layoutX="132.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Give a number n:" />
-      <Button fx:id="step1" layoutX="137.0" layoutY="255.0" mnemonicParsing="false" onMouseClicked="#s1_CalculatePandQ" text="Step 1" />
+      <Button fx:id="step1" layoutX="137.0" layoutY="283.0" mnemonicParsing="false" onMouseClicked="#s1_CalculatePandQ" text="Step 1" />
       <Text layoutX="132.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generated p for n:" />
       <Text layoutX="132.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generated q for n:" />
       <TextField fx:id="generatedPForN" disable="true" layoutX="258.0" layoutY="167.0" />
       <TextField fx:id="generatedQForN" disable="true" layoutX="258.0" layoutY="196.0" />
+      <Button fx:id="step2" layoutX="413.0" layoutY="283.0" mnemonicParsing="false" onMouseClicked="#s2_CalculateE" text="Step 2" />
+      <Text layoutX="132.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generated e:" />
+      <TextField fx:id="generatedE" disable="true" layoutX="258.0" layoutY="225.0" />
    </children>
 </Pane>
