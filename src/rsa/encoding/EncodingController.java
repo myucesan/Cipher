@@ -67,27 +67,9 @@ public class EncodingController {
 
     @FXML
     private void s2_CalculateE() {
-        /*
-        Step 2: Generate e using Euler totient functions
-            Sub-step 1:
-                formulae: φ(n) = (p - 1)(q-1)
-                Say p = 5, q = 11
-                φ(n) == (5 - 1)(11-1)
-                φ(n) = 4 * 10
-                φ(n) = 40
-             Sub-step 2:
-                Now we have the euler totient, say 40 in this case.
-                There are two conditions for 'e'
-                1. 1 < e < 40
-                2. gcd(e, 40) = 1
-         */
-
 
         Integer p = Integer.parseInt(generatedPForN.getText());
         Integer q = Integer.parseInt(generatedQForN.getText());
-        p = p - 1;
-        q = q - 1;
-        Integer euler = p * q;
         Integer e = calculatePublicKeyE(p, q);
         generatedE.setText(e.toString());
 
@@ -117,7 +99,7 @@ public class EncodingController {
     *   @return     Greatest Common Divisor
     */
 
-    public static int euclidAlgorithmGcd(int firstNumber, int secondNumber) {
+    public static Integer euclidAlgorithmGcd(int firstNumber, int secondNumber) {
         if (secondNumber == 0) {
             return firstNumber;
         } else {
@@ -144,7 +126,7 @@ public class EncodingController {
      *   @param      secondPrimeNumber: the q number
      *   @return     the public key e
      */
-    public static int calculatePublicKeyE(int firstPrimeNumber, int secondPrimeNumber) {
+    public static Integer calculatePublicKeyE(int firstPrimeNumber, int secondPrimeNumber) {
         int phiNumber = (firstPrimeNumber - 1) * (secondPrimeNumber - 1);
         int e = -1;
 
