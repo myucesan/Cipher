@@ -69,36 +69,71 @@ public class Controller {
                 2. gcd(e, 40) = 1
          */
 
+
         Integer p = Integer.parseInt(generatedPForN.getText());
         Integer q = Integer.parseInt(generatedQForN.getText());
         p = p - 1;
         q = q - 1;
         Integer euler = p * q;
-//        System.out.println(euler);
+        Integer e = calculatePublicKeyE(p, q);
+        generatedE.setText(e.toString());
 
-        int num1 = 338, num2 = euler, gcd = 1;
+    }
 
+                /*
+    *   ----------------- THEORY & PRACTICAL EXPLANATION ---------------------
+    *   An extended version of the Euclidean algorithm
+    *   can be used to find a concrete expression for the greatest common
+        divisor of integers a and b
+    *
+    *   To put Euclid's algorithm into practice, a recursive method is
+    *   created and keeps calling itself till the second number is equal to 0.
+    *
+    *   Time-complexity (in Big O): TO CALCULATE
+    *   ----------------------------------------------------------------------
+    *
+    *   Calculates the Greatest Common Divisor.
+    *
+    *   @param      firstNumber: the first number toe be inserted. The Phi number
+    *   @param      secondNumber: the second number. This is supposed to be 'E' in the end
+    *   @return     Greatest Common Divisor
+    */
 
-        /* loop is running from 1 to the smallest of both numbers
-         * In this example the loop will run from 1 to 55 because 55
-         * is the smaller number. All the numbers from 1 to 55 will be
-         * checked. A number that perfectly divides both numbers would
-         * be stored in variable "gcd". By doing this, at the end, the
-         * variable gcd will have the largest number that divides both
-         * numbers without remainder.
-         */
+    public static int euclidAlgorithmGcd(int firstNumber, int secondNumber) {
+        if (secondNumber == 0) {
+            return firstNumber;
+        } else {
+            return euclidAlgorithmGcd(secondNumber, firstNumber % secondNumber);
+        }
+    }
 
-            // For 3233 euler totient = 3120 so e is a value between 2 and 3119 that has a greatest common divisor of 1
-            // So we have to go from 2 to 3119 up until we find a gcd of 1 (there are multiple e's possible.
-        for(int i = 1; i <= num1 && i <= num2; i++)
-            {
-                if(num1%i==0 && num2%i==0) {
-                    gcd = i;
-                }
+    /*
+     * ----------------- THEORY & PRACTICAL EXPLANATION ---------------------
+     *   Two public keys are important for RSA: a key pq which is a
+     *   multiplication of two prime numbers p and q, and a key
+     *   e which is relatively prime to the Phi Number, which can
+     *   be calculated as: (p-1) * (q-1). Here, we calculate e.
+     *
+     *   According to the theory a larger e number helps guarantee
+     *   the secrecy of the RSA. This is why we loop from the
+     *   (pq - 1) till value 1. Whenever the greatest common
+     *   divisor is equal to 1, that value is taken and returned.
+     * ----------------------------------------------------------------------
+     *
+     *   Calculates the public key e.
+     *
+     *   @param      firstPrimeNumber: the p number
+     *   @param      secondPrimeNumber: the q number
+     *   @return     the public key e
+     */
+    public static int calculatePublicKeyE(int firstPrimeNumber, int secondPrimeNumber) {
+        int phiNumber = (firstPrimeNumber - 1) * (secondPrimeNumber - 1);
+        int e = -1;
 
-            }
+        for (e = (phiNumber - 1); e > 1; e--) {
+            if (euclidAlgorithmGcd(phiNumber, e) == 1) break;
+        }
 
-
-        System.out.printf("GCD of %d and %d is: %d \n", num1, num2, gcd);
+        return e;
     }
 }
