@@ -1,14 +1,19 @@
-package sample;
+package rsa.encoding;
 
-import com.sun.xml.internal.ws.api.FeatureConstructor;
 import javafx.fxml.FXML;
 
-import javafx.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
+import java.awt.event.ActionEvent;
+import java.rmi.server.ExportException;
 import java.util.ArrayList;
 
-public class Controller {
+public class EncodingController {
 
     @FXML
     javafx.scene.control.Button Button;
@@ -24,6 +29,15 @@ public class Controller {
     TextField generatedE;
 
     @FXML
+    TextField messageTextbox;
+
+    @FXML
+    TextField cipherTextbox;
+
+    @FXML
+    Label decLabel;
+
+    @FXML
     private void s1_CalculatePandQ() {
         /* perform Euclids (prime factorization) algorithm on "number" and that results in p and q.
         Step 1: Take the given N and extract p and q using Euclid's algorithm
@@ -33,7 +47,6 @@ public class Controller {
 
                 formulae: p * q = n
          */
-
         Integer n = Integer.parseInt(givenN.getText());
         ArrayList<Integer> primeNumbers = new ArrayList<>();
 
@@ -77,6 +90,11 @@ public class Controller {
         Integer euler = p * q;
         Integer e = calculatePublicKeyE(p, q);
         generatedE.setText(e.toString());
+
+    }
+
+    @FXML
+    private void s3_CalculateCipher() {
 
     }
 
@@ -135,5 +153,15 @@ public class Controller {
         }
 
         return e;
+    }
+
+    @FXML
+    private void switchToDecoding() throws Exception {
+        Stage stage = (Stage) decLabel.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("../decoding/decoding.fxml"));
+        Scene scene = new Scene(root);
+        stage.setTitle("Cipher v0.0.1 | Decoding");
+        stage.setScene(scene);
+        stage.show();
     }
 }
