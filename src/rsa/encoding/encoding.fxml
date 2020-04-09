@@ -3,12 +3,13 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rsa.encoding.EncodingController">
+<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="642.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rsa.encoding.EncodingController">
    <children>
       <Text layoutX="190.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cipher v0.0.1">
          <font>
@@ -17,25 +18,25 @@
       </Text>
       <TextField fx:id="givenN" layoutX="258.0" layoutY="136.0" text="3233" />
       <Text layoutX="132.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Give a number n:" />
-      <Button fx:id="step1" layoutX="424.0" layoutY="136.0" mnemonicParsing="false" onMouseClicked="#s1_CalculatePandQ" style="-fx-background-color: gray;" text="Step 1" textFill="WHITE" />
+      <Button layoutX="424.0" layoutY="136.0" mnemonicParsing="false" onMouseClicked="#s1_CalculatePandQ" style="-fx-background-color: gray;" text="Step 1" textFill="WHITE" />
       <Text layoutX="132.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generated p for n:" />
       <Text layoutX="132.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generated q for n:" />
-      <TextField fx:id="generatedPForN" disable="true" layoutX="258.0" layoutY="167.0" />
-      <TextField fx:id="generatedQForN" disable="true" layoutX="258.0" layoutY="196.0" />
-      <Button fx:id="step2" layoutX="424.0" layoutY="225.0" mnemonicParsing="false" onMouseClicked="#s2_CalculateE" style="-fx-background-color: gray;" text="Step 2" textFill="WHITE" />
+      <TextField fx:id="generatedPForN" layoutX="258.0" layoutY="167.0" onKeyReleased="#s1_validateSelfEnteredPandQ" />
+      <TextField fx:id="generatedQForN" layoutX="258.0" layoutY="196.0" onKeyReleased="#s1_validateSelfEnteredPandQ" />
+      <Button layoutX="424.0" layoutY="225.0" mnemonicParsing="false" onMouseClicked="#s2_CalculateE" style="-fx-background-color: gray;" text="Step 2" textFill="WHITE" />
       <Text layoutX="132.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generated e:" />
-      <TextField fx:id="generatedE" disable="true" layoutX="258.0" layoutY="225.0" />
+      <TextField fx:id="generatedE" layoutX="258.0" layoutY="225.0" />
       <Text fx:id="encLabel" layoutX="190.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Encoding">
          <font>
             <Font name="Bauhaus 93" size="23.0" />
          </font>
       </Text>
-      <Button fx:id="step3" layoutX="424.0" layoutY="308.0" mnemonicParsing="false" onMouseClicked="#s3_CalculateCipher" style="-fx-background-color: gray;" text="Step 3" textFill="WHITE" />
-      <Separator layoutX="127.0" layoutY="261.0" prefHeight="16.0" prefWidth="347.0" />
-      <Text layoutX="132.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Message m:" />
-      <TextField fx:id="messageTextbox" disable="true" layoutX="258.0" layoutY="289.0" />
-      <Text layoutX="132.0" layoutY="337.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cipher:" />
-      <TextField fx:id="cipherTextbox" disable="true" layoutX="258.0" layoutY="320.0" />
+      <Button layoutX="419.0" layoutY="404.0" mnemonicParsing="false" onMouseClicked="#s3_CalculateCipher" style="-fx-background-color: gray;" text="Step 3" textFill="WHITE" />
+      <Separator layoutX="127.0" layoutY="351.0" prefHeight="16.0" prefWidth="347.0" />
+      <Text layoutX="127.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Message m:" />
+      <TextField fx:id="messageTextbox" layoutX="253.0" layoutY="385.0" text="How are you" />
+      <Text layoutX="127.0" layoutY="433.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cipher:" />
+      <TextField fx:id="cipherTextbox" layoutX="253.0" layoutY="416.0" />
       <Text layoutX="292.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="|">
          <font>
             <Font name="Bauhaus 93" size="23.0" />
@@ -46,5 +47,9 @@
             <Font name="Bauhaus 93" size="23.0" />
          </font>
       </Label>
+      <TextArea fx:id="infoArea" editable="false" layoutX="105.0" layoutY="274.0" prefHeight="77.0" prefWidth="454.0" promptText="This area serves as an information container." style="-fx-background-color: black;" wrapText="true">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font></TextArea>
    </children>
 </Pane>
