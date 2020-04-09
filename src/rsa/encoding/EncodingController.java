@@ -85,7 +85,9 @@ public class EncodingController {
         Double q = Double.parseDouble(generatedQForN.getText());
         HelperMethods.listOfE = HelperMethods.calculatePublicKeyE(p, q);
         Integer numberOfE = HelperMethods.listOfE.size();
-        generatedE.setText(HelperMethods.listOfE.get(HelperMethods.getRandomNumber()).toString());
+        Double e = HelperMethods.listOfE.get(HelperMethods.getRandomNumber());
+        generatedE.setText(e.toString());
+        HelperMethods.e = e;
     }
 
     @FXML
@@ -106,18 +108,20 @@ public class EncodingController {
         char[] messageArray = message.toCharArray();
         ArrayList<Double> messageToNumericArray = new ArrayList<Double>();
         ArrayList<String> messageToCipher = new ArrayList<String>();
-        Double e = Double.parseDouble(generatedE.getText());
+        Double e = HelperMethods.e;
         Double n = Double.parseDouble(givenN.getText());
 
         for (char character : messageArray) {
             Integer numeric = (int)character;
             messageToNumericArray.add(Double.parseDouble(numeric.toString()));
-        }
+        } // Dit klopt
 
+        System.out.println(messageToNumericArray.toString());
         for (Double m : messageToNumericArray) {
-            Double cipher = HelperMethods.calculateByCollary(m, e, n);
+            Double cipher = HelperMethods.extendedModularArithmetic(m, e, n);
             messageToCipher.add(String.valueOf(cipher.intValue()));
         }
+
         String cipher = String.join(" ", messageToCipher);
         cipherTextbox.setText(cipher);
     }

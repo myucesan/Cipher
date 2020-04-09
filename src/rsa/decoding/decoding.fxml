@@ -22,8 +22,6 @@
             <Font name="Arial" size="12.0" />
          </font></Button>
       <Button fx:id="step2" layoutX="430.0" layoutY="262.0" mnemonicParsing="false" onMouseClicked="#s2_decryptMessage" style="-fx-background-color: gray;" text="Step 2" textFill="WHITE" />
-      <Text layoutX="132.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Give an e:" />
-      <TextField fx:id="givenE" layoutX="258.0" layoutY="166.0" />
       <Separator layoutX="119.0" layoutY="221.0" prefHeight="16.0" prefWidth="347.0" />
       <Text layoutX="126.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Message m:" />
       <TextField fx:id="messageTextbox" disable="true" layoutX="262.0" layoutY="289.0" />
@@ -44,7 +42,7 @@
             <Font name="Bauhaus 93" size="23.0" />
          </font>
       </Label>
-      <Text layoutX="137.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Calculated d is:" />
-      <TextField fx:id="calculatedD" disable="true" layoutX="258.0" layoutY="196.0" />
+      <Text layoutX="137.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Calculated d is:" />
+      <TextField fx:id="calculatedD" disable="true" layoutX="258.0" layoutY="166.0" />
    </children>
 </Pane>
