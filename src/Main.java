@@ -8,7 +8,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("rsa/decoding/decoding.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("rsa/encoding/encoding.fxml"));
         primaryStage.setTitle("Cipher v0.0.1 | Encoding");
         primaryStage.setScene(new Scene(root, 600, 600));
         primaryStage.show();

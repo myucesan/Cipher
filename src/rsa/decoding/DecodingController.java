@@ -35,15 +35,15 @@ public class DecodingController {
 //            infoArea.setText("No e has been calculated while encoding, please enter own e.");
 //
 //        }
-        Double n = Double.parseDouble(givenN.getText());
-        Double e = Double.parseDouble(calculatedE.getText());
+        Long n = Long.parseLong(givenN.getText());
+        Long e = Long.parseLong(calculatedE.getText());
 
-        ArrayList<Double> primeNumbers = HelperMethods.findPQ(n);
+        ArrayList<Long> primeNumbers = HelperMethods.findPQ(n);
         calculatedD.setText(primeNumbers.toString());
 
 
-        Double p = 0.0;
-        Double q = 0.0;
+        Long p = 0L;
+        Long q = 0L;
 
         System.out.println("e is: " + e);
         if(primeNumbers != null) {
@@ -78,16 +78,16 @@ public class DecodingController {
     @FXML
     private void s2_decryptMessage() {
         String[] ciphertext = cipherTextbox.getText().split(",");
-        ArrayList<Double> cipher = new ArrayList<Double>();
-        Double d = Double.parseDouble(calculatedD.getText());
-        Double n = Double.parseDouble(givenN.getText());
+        ArrayList<Long> cipher = new ArrayList<Long>();
+        Long d = Long.parseLong(calculatedD.getText());
+        Long n = Long.parseLong(givenN.getText());
 
         for(String c : ciphertext) {
-            cipher.add(Double.parseDouble(c));
+            cipher.add(Long.parseLong(c));
         }
-        ArrayList<Double> decrypted = HelperMethods.decrypt(cipher, d, n);
+        ArrayList<Long> decrypted = HelperMethods.decrypt(cipher, d, n);
         String decryptedMessage = "";
-        for(Double decrypt : decrypted) {
+        for(Long decrypt : decrypted) {
             decryptedMessage += (char)decrypt.intValue();
         }
         System.out.println(decryptedMessage);

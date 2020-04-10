@@ -47,9 +47,9 @@ public class EncodingController {
             infoArea.setText("N has not been entered.");
         } else {
             infoArea.setText("p and q are being calculated ... please wait ...");
-            Double n = Double.parseDouble(inputGivenN);
+            Long n =  Long.parseLong(inputGivenN);
             Instant start = Instant.now();
-            ArrayList<Double> primeNumbers = HelperMethods.findPQ(n);
+            ArrayList<Long> primeNumbers = HelperMethods.findPQ(n);
             Instant finish = Instant.now();
             Long timeElapsed = Duration.between(start, finish).toMillis();
             infoArea.setText("Amount of time busy finding p and q:   " + timeElapsed.toString() + " milliseconds");
@@ -95,9 +95,9 @@ public class EncodingController {
         } else {
             step2.setDisable(false);
                 try {
-                    Double p = Double.parseDouble(inputP);
-                    Double q = Double.parseDouble(inputQ);
-                    Double pq = p * q;
+                    Long p = Long.parseLong(inputP);
+                    Long q = Long.parseLong(inputQ);
+                    Long pq = p * q;
 
                     if (HelperMethods.findPQ(pq) == null) {
                         generatedE.setText("");
@@ -127,12 +127,12 @@ public class EncodingController {
         if (generatedPForN.getText().isEmpty() || generatedQForN.getText().isEmpty()) {
             infoArea.setText("p and q is not entered.");
         } else {
-            Double p = Double.parseDouble(generatedPForN.getText());
-            Double q = Double.parseDouble(generatedQForN.getText());
+            Long p = Long.parseLong(generatedPForN.getText());
+            Long q = Long.parseLong(generatedQForN.getText());
 
             HelperMethods.listOfE = HelperMethods.calculatePublicKeyE(p, q);
             Integer numberOfE = HelperMethods.listOfE.size();
-            Double e = HelperMethods.listOfE.get(HelperMethods.getRandomNumber());
+            Long e = HelperMethods.listOfE.get(HelperMethods.getRandomNumber());
             generatedE.setText(e.toString());
             HelperMethods.e = e;
             step3.setDisable(false);
@@ -145,7 +145,7 @@ public class EncodingController {
         if (inputGeneratedE.isEmpty()) {
             step3.setDisable(true);
         } else {
-            Double e = Double.parseDouble(generatedE.getText());
+            Long e = Long.parseLong(generatedE.getText());
             if(HelperMethods.isValidE(e) == false) {
                 infoArea.setText("E is not valid");
             } else {
@@ -161,19 +161,19 @@ public class EncodingController {
     private void s3_CalculateCipher() {
         String message = messageTextbox.getText();
         char[] messageArray = message.toCharArray();
-        ArrayList<Double> messageToNumericArray = new ArrayList<Double>();
+        ArrayList<Long> messageToNumericArray = new ArrayList<Long>();
         ArrayList<String> messageToCipher = new ArrayList<String>();
-        Double e = HelperMethods.e;
-        Double n = Double.parseDouble(givenN.getText());
+        Long e = HelperMethods.e;
+        Long n = Long.parseLong(givenN.getText());
 
         for (char character : messageArray) {
             Integer numeric = (int)character;
-            messageToNumericArray.add(Double.parseDouble(numeric.toString()));
+            messageToNumericArray.add(Long.parseLong(numeric.toString()));
         } // Dit klopt
 
         System.out.println(messageToNumericArray.toString());
-        for (Double m : messageToNumericArray) {
-            Double cipher = HelperMethods.extendedModularArithmetic(m, e, n);
+        for (Long m : messageToNumericArray) {
+            Long cipher = HelperMethods.extendedModularArithmetic(m, e, n);
             messageToCipher.add(String.valueOf(cipher.intValue()));
         }
 
@@ -194,4 +194,5 @@ public class EncodingController {
         stage.setScene(scene);
         stage.show();
     }
+
 }
