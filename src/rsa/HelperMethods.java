@@ -180,10 +180,8 @@ public class HelperMethods {
         Long p = primeNumbers.get(0);
         Long q = primeNumbers.get(1);
         Long phiNumber = (p - 1) * (q - 1);
-        Long d = -1L;
-        Long counter = 1L;
 
-        return inverse(e, phiNumber);
+        return findInverse(e, phiNumber);
 
     }
 
@@ -192,16 +190,16 @@ public class HelperMethods {
     }
 
 
-    public static long findInverse(long a, long b)
+    public static long findInverse(long e, long n)
     {
         long x = 0, y = 1, lastx = 1, lasty = 0;
-        while(b!=0)
+        while(n!=0)
         {
-            long quotient = a/b;
+            long quotient = e/n;
 
-            long temp = a;
-            a = b;
-            b=temp%b;
+            long temp = n;
+            e = n;
+            e=temp%n;
 
             temp = x;
             x=lastx-quotient*x;
