@@ -55,7 +55,7 @@ public class EncodingController {
             infoArea.setText("Amount of time busy finding p and q:   " + timeElapsed.toString() + " milliseconds");
             step2.setDisable(false);
 
-            // N = 3843 gives an error factorization is 3 x 3 x 7 x 61 FIXME
+
             if(primeNumbers.equals(null)) {
                 generatedPForN.setText("n does not have p");
                 generatedQForN.setText("n does not have q");
@@ -79,7 +79,6 @@ public class EncodingController {
             step1.setDisable(false);
         }
 
-        // FIXME get NullPointer exception when inserting non primable number like 3231
 
     }
     @FXML
@@ -98,13 +97,15 @@ public class EncodingController {
                     Long p = Long.parseLong(inputP);
                     Long q = Long.parseLong(inputQ);
                     Long pq = p * q;
-
-                    if (HelperMethods.findPQ(pq) == null) {
+                    ArrayList<Long> primes = HelperMethods.findPrimes(pq);
+                    if (primes.size() != 2) {
                         generatedE.setText("");
+                        givenN.setText("");
                         infoArea.setText("The combination of p and q are invalid.");
 
                     } else if(p == 0.0 || q == 0.0) {
                         generatedE.setText("");
+                        givenN.setText("");
                         infoArea.setText("The combination of p and q are invalid.");
                     } else {
                         infoArea.setText("New n has been calculated using p and q.");
@@ -169,7 +170,7 @@ public class EncodingController {
         for (char character : messageArray) {
             Integer numeric = (int)character;
             messageToNumericArray.add(Long.parseLong(numeric.toString()));
-        } // Dit klopt
+        }
 
         System.out.println(messageToNumericArray.toString());
         for (Long m : messageToNumericArray) {

@@ -23,18 +23,17 @@ public class DecodingController {
     @FXML Label encLabel;
     @FXML TextField calculatedE;
     @FXML Button step1;
+    @FXML Button step2;
     @FXML TextArea infoArea;
 
     @FXML
     private void s1_calculateD() {
-        // TODO: check if e is actually generated
-//        if(HelperMethods.e != null) {
-//            calculatedE.setText(HelperMethods.e.toString());
-//        } else {
-//            calculatedE.setText("9011");
-//            infoArea.setText("No e has been calculated while encoding, please enter own e.");
-//
-//        }
+        if(HelperMethods.e != null) {
+            calculatedE.setText(HelperMethods.e.toString());
+        } else {
+            infoArea.setText("No e has been calculated while encoding, please enter own e.");
+
+        }
         Long n = Long.parseLong(givenN.getText());
         Long e = Long.parseLong(calculatedE.getText());
 
@@ -51,6 +50,8 @@ public class DecodingController {
             q = primeNumbers.get(1);
         }
 
+        HelperMethods.phi = (p - 1) * (q - 1);
+
 
 
         calculatedD.setText(HelperMethods.calculateDecryptionKey(e, p, q).toString());
@@ -58,20 +59,20 @@ public class DecodingController {
 
     @FXML
     private void s1_validateSelfEnteredE() {
-//        String inputGeneratedE = calculatedE.getText();
-//        if (inputGeneratedE.isEmpty()) {
-//            step1.setDisable(true);
-//        } else {
-//            Double e = Double.parseDouble(calculatedE.getText());
-//            if(HelperMethods.isValidE(e) == false) {
-//                infoArea.setText("E is not valid");
-////                HelperMethods.e = 0.0;
-//            } else {
-//                infoArea.setText("E has been approved.");
-//                HelperMethods.e = e;
-//                step1.setDisable(false);
-//            }
-//        }
+        String inputGeneratedE = calculatedE.getText();
+        if (inputGeneratedE.isEmpty()) {
+            System.out.println("ISEMPTY");
+            step2.setDisable(true);
+        } else {
+            Long e = Long.parseLong(calculatedE.getText());
+            if(HelperMethods.isValidE(e) == false) {
+                infoArea.setText("E is not valid");
+            } else {
+                infoArea.setText("E has been approved.");
+                step2.setDisable(false);
+            }
+
+        }
 
     }
 
@@ -86,9 +87,16 @@ public class DecodingController {
             cipher.add(Long.parseLong(c));
         }
         ArrayList<Long> decrypted = HelperMethods.decrypt(cipher, d, n);
+        System.out.println("Decrypted message in encode");
+        System.out.println(decrypted.toString());
         String decryptedMessage = "";
         for(Long decrypt : decrypted) {
-            decryptedMessage += (char)decrypt.intValue();
+            if(decrypt.intValue() > 255) {
+                int dec = decrypt.intValue() % 255;
+                decryptedMessage += (char)dec;
+            } else {
+                decryptedMessage += (char)decrypt.intValue();
+            }
         }
         System.out.println(decryptedMessage);
         messageTextbox.setText(decryptedMessage);

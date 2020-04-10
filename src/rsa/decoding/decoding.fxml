@@ -16,7 +16,7 @@
             <Font name="Bauhaus 93" size="36.0" />
          </font>
       </Text>
-      <TextField fx:id="givenN" layoutX="258.0" layoutY="136.0" text="997836933279749" />
+      <TextField fx:id="givenN" layoutX="258.0" layoutY="136.0" />
       <Text layoutX="132.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Give a number n:" />
       <Button fx:id="step1" graphicTextGap="0.0" layoutX="424.0" layoutY="136.0" mnemonicParsing="false" onMouseClicked="#s1_calculateD" style="-fx-background-color: gray; -fx-border: none;" text="Step 1" textFill="WHITE">
          <font>
@@ -25,7 +25,7 @@
       <Button fx:id="step2" layoutX="423.0" layoutY="422.0" mnemonicParsing="false" onMouseClicked="#s2_decryptMessage" style="-fx-background-color: gray;" text="Step 2" textFill="WHITE" />
       <Separator layoutX="112.0" layoutY="381.0" prefHeight="16.0" prefWidth="347.0" />
       <Text layoutX="119.0" layoutY="466.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Message m:" />
-      <TextField fx:id="messageTextbox" disable="true" layoutX="255.0" layoutY="449.0" />
+      <TextField fx:id="messageTextbox" editable="false" layoutX="255.0" layoutY="449.0" />
       <Text layoutX="122.0" layoutY="418.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cipher:" />
       <TextField fx:id="cipherTextbox" layoutX="255.0" layoutY="401.0" />
       <Text layoutX="292.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="|">
@@ -46,7 +46,7 @@
       <Text layoutX="137.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Calculated d is:" />
       <TextField fx:id="calculatedD" layoutX="246.0" layoutY="198.0" />
       <Text layoutX="137.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E from encoding:" />
-      <TextField fx:id="calculatedE" layoutX="258.0" layoutY="167.0" text="70233513672251" />
+      <TextField fx:id="calculatedE" layoutX="258.0" layoutY="167.0" onKeyReleased="#s1_validateSelfEnteredE" />
       <TextArea fx:id="infoArea" layoutX="127.0" layoutY="228.0" prefHeight="153.0" prefWidth="390.0" />
    </children>
 </Pane>

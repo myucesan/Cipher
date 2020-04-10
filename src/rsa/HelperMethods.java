@@ -1,18 +1,15 @@
 package rsa;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import javafx.fxml.FXML;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+
 
 
 public class HelperMethods {
@@ -26,12 +23,8 @@ public class HelperMethods {
         theGivenN = n;  // global voor is validate
         ArrayList<Long> primeNumbers = new ArrayList<>();
 
-
-        // n must be odd at this point.  So we can
-        // skip one element (Note i = i +2)
         for (Long i = 3L; i <= Math.sqrt(n); i+= 2)
         {
-            // While i divides n, print i and divide n
             while (n%i == 0)
             {
                 primeNumbers.add(i);
@@ -39,10 +32,11 @@ public class HelperMethods {
             }
         }
 
-        // This condition is to handle the case whien
-        // n is a prime number greater than 2
-        if (n > 2)
+
+        if (n > 2) {
             primeNumbers.add(n);
+
+        }
 
         if(primeNumbers.size() > 2) {
             // A given n might not have an unique p and q, primeNumbers will then contain the whole factorization
@@ -51,7 +45,7 @@ public class HelperMethods {
             // A given n might be a prime number in itself, in that case it has no p and q either
             return null;
         }
-        System.out.println(primeNumbers.toString());
+//        System.out.println(primeNumbers.toString());
         return primeNumbers;
     }
 
@@ -108,6 +102,7 @@ public class HelperMethods {
      */
     public static HashMap<Long, Long> calculatePublicKeyE(Long p, Long q) {
         Long phiNumber = (p - 1) * (q - 1);
+        HelperMethods.phi = phiNumber;
         Long e = -1L;
         HashMap<Long, Long> listOfE = new HashMap<Long, Long>();
         Long index = 0L;
