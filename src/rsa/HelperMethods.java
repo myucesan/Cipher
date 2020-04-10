@@ -24,16 +24,23 @@ public class HelperMethods {
     public static ArrayList<Double> findPQ(Double n) {
         ArrayList<Double> primeNumbers = new ArrayList<>();
         theGivenN = n; // for global variable
-        for(Double i = 2.0 ; i < n; i++) {
-            while(n % i == 0.0) {
+
+        // n must be odd at this point.  So we can
+        // skip one element (Note i = i +2)
+        for (Double i = 3.0; i <= Math.sqrt(n); i+= 2)
+        {
+            // While i divides n, print i and divide n
+            while (n%i == 0)
+            {
                 primeNumbers.add(i);
-                n = n / i;
+                n /= i;
             }
         }
 
-        if(n > 2) {
+        // This condition is to handle the case whien
+        // n is a prime number greater than 2
+        if (n > 2)
             primeNumbers.add(n);
-        }
 
         if(primeNumbers.size() > 2) {
             // A given n might not have an unique p and q, primeNumbers will then contain the whole factorization
@@ -42,7 +49,7 @@ public class HelperMethods {
             // A given n might be a prime number in itself, in that case it has no p and q either
             return null;
         }
-
+        System.out.println(primeNumbers.toString());
         return primeNumbers;
     }
 

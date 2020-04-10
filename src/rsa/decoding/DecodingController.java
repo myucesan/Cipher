@@ -17,7 +17,6 @@ public class DecodingController {
 
 
     @FXML TextField givenN;
-    @FXML TextField givenE;
     @FXML TextField calculatedD;
     @FXML TextField messageTextbox;
     @FXML TextField cipherTextbox;
@@ -29,42 +28,50 @@ public class DecodingController {
     @FXML
     private void s1_calculateD() {
         // TODO: check if e is actually generated
-        if(HelperMethods.e != null) {
-            calculatedE.setText(HelperMethods.e.toString());
-        } else {
-            calculatedE.setText("9011");
-            infoArea.setText("No e has been calculated while encoding, please enter own e.");
+//        if(HelperMethods.e != null) {
+//            calculatedE.setText(HelperMethods.e.toString());
+//        } else {
+//            calculatedE.setText("9011");
+//            infoArea.setText("No e has been calculated while encoding, please enter own e.");
+//
+//        }
+        Double n = Double.parseDouble(givenN.getText());
+        Double e = Double.parseDouble(calculatedE.getText());
 
-        }
-        ArrayList<Double> primeNumbers = HelperMethods.findPQ(Double.parseDouble(givenN.getText()));
+        ArrayList<Double> primeNumbers = HelperMethods.findPQ(n);
+        calculatedD.setText(primeNumbers.toString());
+
+
         Double p = 0.0;
         Double q = 0.0;
-        Double n = Double.parseDouble(givenN.getText());
+
+        System.out.println("e is: " + e);
         if(primeNumbers != null) {
             p = primeNumbers.get(0);
             q = primeNumbers.get(1);
         }
 
 
-        calculatedD.setText(HelperMethods.calculateDecryptionKey(p, q, Double.parseDouble(givenE.getText())).toString());
+
+        calculatedD.setText(HelperMethods.calculateDecryptionKey(p, q, e).toString());
     }
 
     @FXML
     private void s1_validateSelfEnteredE() {
-        String inputGeneratedE = calculatedE.getText();
-        if (inputGeneratedE.isEmpty()) {
-            step1.setDisable(true);
-        } else {
-            Double e = Double.parseDouble(calculatedE.getText());
-            if(HelperMethods.isValidE(e) == false) {
-                infoArea.setText("E is not valid");
-//                HelperMethods.e = 0.0;
-            } else {
-                infoArea.setText("E has been approved.");
-                HelperMethods.e = e;
-                step1.setDisable(false);
-            }
-        }
+//        String inputGeneratedE = calculatedE.getText();
+//        if (inputGeneratedE.isEmpty()) {
+//            step1.setDisable(true);
+//        } else {
+//            Double e = Double.parseDouble(calculatedE.getText());
+//            if(HelperMethods.isValidE(e) == false) {
+//                infoArea.setText("E is not valid");
+////                HelperMethods.e = 0.0;
+//            } else {
+//                infoArea.setText("E has been approved.");
+//                HelperMethods.e = e;
+//                step1.setDisable(false);
+//            }
+//        }
 
     }
 

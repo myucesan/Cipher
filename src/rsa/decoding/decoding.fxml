@@ -16,7 +16,7 @@
             <Font name="Bauhaus 93" size="36.0" />
          </font>
       </Text>
-      <TextField fx:id="givenN" layoutX="258.0" layoutY="136.0" text="3233" />
+      <TextField fx:id="givenN" layoutX="258.0" layoutY="136.0" text="997836933279749" />
       <Text layoutX="132.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Give a number n:" />
       <Button fx:id="step1" graphicTextGap="0.0" layoutX="424.0" layoutY="136.0" mnemonicParsing="false" onMouseClicked="#s1_calculateD" style="-fx-background-color: gray; -fx-border: none;" text="Step 1" textFill="WHITE">
          <font>
@@ -44,9 +44,9 @@
          </font>
       </Label>
       <Text layoutX="137.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Calculated d is:" />
-      <TextField fx:id="calculatedD" disable="true" layoutX="246.0" layoutY="198.0" />
+      <TextField fx:id="calculatedD" layoutX="246.0" layoutY="198.0" />
       <Text layoutX="137.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E from encoding:" />
-      <TextField fx:id="calculatedE" layoutX="258.0" layoutY="167.0" />
+      <TextField fx:id="calculatedE" layoutX="258.0" layoutY="167.0" text="70233513672251" />
       <TextArea fx:id="infoArea" layoutX="127.0" layoutY="228.0" prefHeight="153.0" prefWidth="390.0" />
    </children>
 </Pane>
