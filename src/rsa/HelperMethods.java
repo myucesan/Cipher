@@ -1,17 +1,29 @@
 package rsa;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.fxml.FXML;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Array;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import java.util.HashSet;
 
 
 public class HelperMethods {
 
-    public static ArrayList<Double> listOfE;
+    public static HashMap<Integer, Double> listOfE;
+    public static Double e;
+    public static Double phi;
+    public static Double theGivenN;
     public static ArrayList<Double> findPQ(Double n) {
         ArrayList<Double> primeNumbers = new ArrayList<>();
+        theGivenN = n; // for global variable
         for(Double i = 2.0 ; i < n; i++) {
             while(n % i == 0.0) {
                 primeNumbers.add(i);
@@ -33,7 +45,7 @@ public class HelperMethods {
 
         return primeNumbers;
     }
-    public static Double e;
+
 
     public static Integer getRandomNumber() {
         Double number = (Double) (Math.floor(Math.random() * (listOfE.size())));
@@ -41,43 +53,6 @@ public class HelperMethods {
         return randomNumber;
     }
 
-
-
-    public static Double calculateByCollary(Double m, Double e, Double n) {
-        Double result = null;
-        Integer power = 1; // Initial power we look at first
-
-
-        while (power <= e) {
-            Integer subResult = power & e.intValue();
-            if (subResult > 0) {
-                Double calculation;
-                if (subResult > 2) {
-                    Integer count = 0;
-                    do {
-                        subResult = subResult /2;
-                        count++;
-                    } while (subResult > 128);
-                    calculation = Math.pow(m, subResult) % n;
-                    for (int i = 0; i < count; i++) {
-                        calculation = Math.pow(calculation, 2) % n;
-                    }
-                } else {
-                    calculation = Math.pow(m, subResult) % n;
-                }
-
-                if (result == null) {
-                    result = calculation;
-                } else {
-                    result *= calculation;
-                }
-
-            }
-            power = power << 1;
-        }
-
-        return (result%n);
-    }
 
     public static Double extendedModularArithmetic(Double msg, Double exp, Double n) {
         if (exp == 0) {
@@ -109,19 +84,28 @@ public class HelperMethods {
      *   @param      secondPrimeNumber: the q number
      *   @return     the public key e
      */
-    public static ArrayList<Double> calculatePublicKeyE(Double firstPrimeNumber, Double secondPrimeNumber) {
+    public static HashMap<Integer, Double> calculatePublicKeyE(Double firstPrimeNumber, Double secondPrimeNumber) {
         Double phiNumber = (firstPrimeNumber - 1) * (secondPrimeNumber - 1);
+        phi = phiNumber; // for global
         Double e = -1.0;
-        ArrayList<Double> listOfE = new ArrayList<Double>();
+        HashMap<Integer, Double> listOfE = new HashMap<Integer, Double>();
+        Integer index = 0;
+        Instant start = Instant.now();
 
         for (e = (phiNumber - 1); e > 1; e--) {
             if (euclidAlgorithmGcd(phiNumber, e) == 1) {
-                listOfE.add(e);
+                listOfE.put(index, e);
+                index++;
             }
         }
 
+        Instant finish = Instant.now();
+        System.out.println("E are generated in so many milliseconds:");
+        Long timeElapsed = Duration.between(start, finish).toMillis();
+        System.out.println(timeElapsed);
         return listOfE;
     }
+
 
         /*
     *   ----------------- THEORY & PRACTICAL EXPLANATION ---------------------
@@ -202,6 +186,59 @@ public class HelperMethods {
         return decryptedMessage;
     }
 
+
+
+    /////// --------------------- /////////////
+    //          Validation Functions         //
+    ////// ---------------------- ////////////
+
+    public static ArrayList<Double> findPrimes(Double n) {
+        ArrayList<Double> primeNumbers = new ArrayList<>();
+        for(Double i = 2.0 ; i < n; i++) {
+            while(n % i == 0.0) {
+                primeNumbers.add(i);
+                n = n / i;
+            }
+        }
+
+        if(n > 2) {
+            primeNumbers.add(n);
+        }
+
+        return primeNumbers;
+    }
+
+    public static Boolean isValidE(Double e) {
+        // FIXME: Does not work
+        ArrayList<Double> primeNumbersOfE = findPrimes(e);
+        String s = "Prime factors of e: ";
+        for(Double prime : primeNumbersOfE) {
+
+            s += prime + " , ";
+        }
+        System.out.println(s);
+
+        if(euclidAlgorithmGcd(phi,e) == 1 && e >1 && e< theGivenN) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /////// --------------------- /////////////
+    //          File Management             //
+    ////// ---------------------- ////////////
+    public static void writeToFile(String e) throws IOException {
+        String filePath = "listOfE.txt";
+        File checkFile = new File(filePath);
+        Boolean fileExists;
+        fileExists = checkFile.exists();
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter("listOfE.txt", fileExists));
+        writer.write(e + "\n");
+        writer.close();
+    }
 
     /////// --------------------- /////////////
     //          Backup Methods              //

@@ -16,22 +16,22 @@
             <Font name="Bauhaus 93" size="36.0" />
          </font>
       </Text>
-      <TextField fx:id="givenN" layoutX="258.0" layoutY="136.0" text="3233" />
+      <TextField fx:id="givenN" layoutX="258.0" layoutY="136.0" onKeyReleased="#s1_validateN" />
       <Text layoutX="132.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Give a number n:" />
-      <Button layoutX="424.0" layoutY="136.0" mnemonicParsing="false" onMouseClicked="#s1_CalculatePandQ" style="-fx-background-color: gray;" text="Step 1" textFill="WHITE" />
+      <Button fx:id="step1" disable="true" layoutX="424.0" layoutY="136.0" mnemonicParsing="false" onMouseClicked="#s1_CalculatePandQ" style="-fx-background-color: gray;" text="Step 1" textFill="WHITE" />
       <Text layoutX="132.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generated p for n:" />
       <Text layoutX="132.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generated q for n:" />
       <TextField fx:id="generatedPForN" layoutX="258.0" layoutY="167.0" onKeyReleased="#s1_validateSelfEnteredPandQ" />
       <TextField fx:id="generatedQForN" layoutX="258.0" layoutY="196.0" onKeyReleased="#s1_validateSelfEnteredPandQ" />
-      <Button layoutX="424.0" layoutY="225.0" mnemonicParsing="false" onMouseClicked="#s2_CalculateE" style="-fx-background-color: gray;" text="Step 2" textFill="WHITE" />
+      <Button fx:id="step2" disable="true" layoutX="424.0" layoutY="225.0" mnemonicParsing="false" onMouseClicked="#s2_CalculateE" style="-fx-background-color: gray;" text="Step 2" textFill="WHITE" />
       <Text layoutX="132.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generated e:" />
-      <TextField fx:id="generatedE" layoutX="258.0" layoutY="225.0" />
-      <Text fx:id="encLabel" layoutX="190.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Encoding">
+      <TextField fx:id="generatedE" layoutX="258.0" layoutY="225.0" onKeyReleased="#s2_validateSelfEnteredE" />
+      <Text layoutX="190.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Encoding">
          <font>
             <Font name="Bauhaus 93" size="23.0" />
          </font>
       </Text>
-      <Button layoutX="419.0" layoutY="404.0" mnemonicParsing="false" onMouseClicked="#s3_CalculateCipher" style="-fx-background-color: gray;" text="Step 3" textFill="WHITE" />
+      <Button fx:id="step3" disable="true" layoutX="419.0" layoutY="404.0" mnemonicParsing="false" onMouseClicked="#s3_CalculateCipher" style="-fx-background-color: gray;" text="Step 3" textFill="WHITE" />
       <Separator layoutX="127.0" layoutY="351.0" prefHeight="16.0" prefWidth="347.0" />
       <Text layoutX="127.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Message m:" />
       <TextField fx:id="messageTextbox" layoutX="253.0" layoutY="385.0" text="How are you" />

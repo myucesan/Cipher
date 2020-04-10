@@ -5,11 +5,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import rsa.HelperMethods;
+
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -24,6 +27,9 @@ public class EncodingController {
     @FXML TextField cipherTextbox;
     @FXML Label decLabel;
     @FXML TextArea infoArea;
+    @FXML Button step1;
+    @FXML Button step2;
+    @FXML Button step3;
 
     /**
      * Step 1: Take the given N and extract p and q by prime factorization
@@ -35,15 +41,21 @@ public class EncodingController {
      */
     @FXML
     private void s1_CalculatePandQ() {
-        infoArea.setText("p and q are being calculated ... please wait ...");
-            Double n = Double.parseDouble(givenN.getText());
+        String inputGivenN = givenN.getText();
+
+        if(inputGivenN.isEmpty()) {
+            infoArea.setText("N has not been entered.");
+        } else {
+            infoArea.setText("p and q are being calculated ... please wait ...");
+            Double n = Double.parseDouble(inputGivenN);
             Instant start = Instant.now();
             ArrayList<Double> primeNumbers = HelperMethods.findPQ(n);
             Instant finish = Instant.now();
             Long timeElapsed = Duration.between(start, finish).toMillis();
             infoArea.setText("Amount of time busy finding p and q:   " + timeElapsed.toString() + " milliseconds");
+            step2.setDisable(false);
 
-            // N = 3843 gives an error factorization is 3 x 3 x 7 x 61
+            // N = 3843 gives an error factorization is 3 x 3 x 7 x 61 FIXME
             if(primeNumbers.equals(null)) {
                 generatedPForN.setText("n does not have p");
                 generatedQForN.setText("n does not have q");
@@ -52,54 +64,97 @@ public class EncodingController {
                 generatedQForN.setText(primeNumbers.get(0).toString());
                 generatedPForN.setText(primeNumbers.get(1).toString());
             }
-    }
-
-    @FXML
-    private void s1_validateSelfEnteredPandQ() {
-        try {
-            Double p = Double.parseDouble(generatedPForN.getText());
-            Double q = Double.parseDouble(generatedQForN.getText());
-            Double pq = p * q;
-
-            if (HelperMethods.findPQ(pq) == null) {
-                infoArea.setText("The combination of p and q are invalid.");
-                generatedE.setText("");
-            } else {
-                infoArea.setText("New n has been calculated using p and q.");
-                givenN.setText(pq.toString());
-            }
-        } catch(NumberFormatException e) {
-            infoArea.setText("p and/or q is empty.");
-            givenN.setText("");
         }
 
+    }
+
+    @FXML
+    private void s1_validateN() {
+        String inputGivenN = givenN.getText();
+        if (inputGivenN.isEmpty()) {
+            step1.setDisable(true);
+            step2.setDisable(true);
+            step3.setDisable(true);
+        } else {
+            step1.setDisable(false);
+        }
+
+        // FIXME get NullPointer exception when inserting non primable number like 3231
+
+    }
+    @FXML
+    private void s1_validateSelfEnteredPandQ() {
+        String inputP = generatedPForN.getText();
+        String inputQ = generatedQForN.getText();
+
+
+        if (inputP.isEmpty() || inputQ.isEmpty()) {
+            infoArea.setText("p and q is not entered.");
+            step2.setDisable(true);
+            step3.setDisable(true);
+        } else {
+            step2.setDisable(false);
+                try {
+                    Double p = Double.parseDouble(inputP);
+                    Double q = Double.parseDouble(inputQ);
+                    Double pq = p * q;
+
+                    if (HelperMethods.findPQ(pq) == null) {
+                        generatedE.setText("");
+                        infoArea.setText("The combination of p and q are invalid.");
+
+                    } else if(p == 0.0 || q == 0.0) {
+                        generatedE.setText("");
+                        infoArea.setText("The combination of p and q are invalid.");
+                    } else {
+                        infoArea.setText("New n has been calculated using p and q.");
+                        givenN.setText(pq.toString());
+                    }
+                } catch(NumberFormatException e) {
+                    givenN.setText("");
+                    infoArea.setText("p and/or q is empty.");
+                }
+            }
+
+
 
     }
 
     @FXML
-    private void s2_CalculateE() {
+    private void s2_CalculateE() throws IOException {
 
-        // TODO:  check if p and q is inserted and validated
-        // TODO: Validate self-entered E
-        Double p = Double.parseDouble(generatedPForN.getText());
-        Double q = Double.parseDouble(generatedQForN.getText());
-        HelperMethods.listOfE = HelperMethods.calculatePublicKeyE(p, q);
-        Integer numberOfE = HelperMethods.listOfE.size();
-        Double e = HelperMethods.listOfE.get(HelperMethods.getRandomNumber());
-        generatedE.setText(e.toString());
-        HelperMethods.e = e;
+        // FIXME: p and q is validated but if numbers are too big program will get stuck
+        if (generatedPForN.getText().isEmpty() || generatedQForN.getText().isEmpty()) {
+            infoArea.setText("p and q is not entered.");
+        } else {
+            Double p = Double.parseDouble(generatedPForN.getText());
+            Double q = Double.parseDouble(generatedQForN.getText());
+
+            HelperMethods.listOfE = HelperMethods.calculatePublicKeyE(p, q);
+            Integer numberOfE = HelperMethods.listOfE.size();
+            Double e = HelperMethods.listOfE.get(HelperMethods.getRandomNumber());
+            generatedE.setText(e.toString());
+            HelperMethods.e = e;
+            step3.setDisable(false);
+        }
     }
 
     @FXML
     private void s2_validateSelfEnteredE() {
-        // TODO TODO TODO
-        if(HelperMethods.listOfE == null) {
-            System.out.println("Soorry");
+        String inputGeneratedE = generatedE.getText();
+        if (inputGeneratedE.isEmpty()) {
+            step3.setDisable(true);
         } else {
-            String insertedE = generatedE.getText();
-            Integer e = Integer.parseInt(insertedE);
-            System.out.println(e);
+            Double e = Double.parseDouble(generatedE.getText());
+            if(HelperMethods.isValidE(e) == false) {
+                infoArea.setText("E is not valid");
+            } else {
+                infoArea.setText("E has been approved.");
+                step2.setDisable(false);
+            }
+
         }
+
     }
 
     @FXML
