@@ -174,20 +174,22 @@ public class HelperMethods {
      *   @param      e: the public key e which was calculated before
      *   @return     the decryption key d
      */
-    public static Double calculateDecryptionKey(Double p, Double q, Double e) {
+    public static Double calculateDecryptionKey(Double e, Double n) {
+        ArrayList<Double> primeNumbers = findPQ(n);
+        Double p = primeNumbers.get(0);
+        Double q = primeNumbers.get(1);
         Double phiNumber = (p - 1) * (q - 1);
         Double d = -1.0;
         Integer counter = 1;
 
-        while (true) {
-            d = (1 + counter * phiNumber) / e;
-            if (HelperMethods.checkIfInteger(d)) {
-                return d;
-            }
-            counter++;
-        }
+        return inverse(e, phiNumber);
 
     }
+
+    public static Double inverse(Double e, Double n) {
+        return extendedModularArithmetic(e, n-1, n);
+    }
+    
 
     public static ArrayList<Double> decrypt(ArrayList<Double> cipher, Double decryptionKey, Double n) {
         ArrayList<Double> decryptedMessage = new ArrayList<Double>();
