@@ -53,7 +53,7 @@ public class DecodingController {
 
 
 
-        calculatedD.setText(HelperMethods.calculateDecryptionKey(e, n).toString());
+        calculatedD.setText(HelperMethods.calculateDecryptionKey(e, p, q).toString());
     }
 
     @FXML

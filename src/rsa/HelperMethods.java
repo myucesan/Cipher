@@ -62,15 +62,28 @@ public class HelperMethods {
         return randomNumber;
     }
 
+    /*
+     * ----------------- THEORY & PRACTICAL EXPLANATION ---------------------
+     *   This code reflects the theory: Solving the problem of big numbers
+     * ----------------------------------------------------------------------
+     *
+     *   calculates modular arithmetic.
+     *
+     *   @param      base: base number
+     *   @param      exp: the power
+     *   @param      n: the modular number
+     *   @return     result of modular arithmetic
+     */
 
-    public static Long extendedModularArithmetic(Long msg, Long exp, Long n) {
+
+    public static Long extendedModularArithmetic(Long base, Long exp, Long n) {
         if (exp == 0) {
             return 1L;
         } else if (exp % 2 == 0) {
-            Long subResult = extendedModularArithmetic(msg, exp/2, n) % n;
+            Long subResult = extendedModularArithmetic(base, exp/2, n) % n;
             return (subResult*subResult);
         } else {
-            return (msg % n) * extendedModularArithmetic(msg, exp-1, n) % n;
+            return (base % n) * extendedModularArithmetic(base, exp-1, n) % n;
         }
     }
 
@@ -89,12 +102,12 @@ public class HelperMethods {
      *
      *   Calculates the public key e.
      *
-     *   @param      firstPrimeNumber: the p number
-     *   @param      secondPrimeNumber: the q number
+     *   @param      p the p number
+     *   @param      q: the q number
      *   @return     the public key e
      */
-    public static HashMap<Long, Long> calculatePublicKeyE(Long firstPrimeNumber, Long secondPrimeNumber) {
-        Long phiNumber = (firstPrimeNumber - 1) * (secondPrimeNumber - 1);
+    public static HashMap<Long, Long> calculatePublicKeyE(Long p, Long q) {
+        Long phiNumber = (p - 1) * (q - 1);
         Long e = -1L;
         HashMap<Long, Long> listOfE = new HashMap<Long, Long>();
         Long index = 0L;
@@ -161,11 +174,9 @@ public class HelperMethods {
      *   p and q are the prime numbers in our parameters.
      *   There are many ways to make this possible.
      *
-     *   Our way is: d = 1 + k(phi) / e, where:
-     *   - d is an Long
-     *   - k is an Long
-     *   - e is the e
-     *   - phi is (p – 1)(q – 1), where p is firstPrimenumber and q is q
+     *  The positive inverse is being found using the method findInverse.
+     *  Then, we substract the positive inverse from the phi number, if 
+     *  the result is negative.
      * ----------------------------------------------------------------------
      *
      *   Calculates the decryption key d
@@ -175,10 +186,7 @@ public class HelperMethods {
      *   @param      e: the public key e which was calculated before
      *   @return     the decryption key d
      */
-    public static Long calculateDecryptionKey(Long e, Long n) {
-        ArrayList<Long> primeNumbers = findPQ(n);
-        Long p = primeNumbers.get(0);
-        Long q = primeNumbers.get(1);
+    public static Long calculateDecryptionKey(Long e, Long p, Long q) {
         Long phiNumber = (p - 1) * (q - 1);
         Long result = findInverse(e, phiNumber);
         if (result < 0) {
@@ -188,20 +196,34 @@ public class HelperMethods {
 
     }
 
-    public static Long inverse(Long e, Long n) {
-        return extendedModularArithmetic(e, n-1, n);
-    }
+    /*
+     * ----------------- THEORY & PRACTICAL EXPLANATION ---------------------
+     *   This method calculates the inverse modular. It does so by using
+     *   an extended version of the Euclidean Algorithm, in which we try
+     *   to find the linear combination of e and phi in the method. However,
+     *   the important part about this is that if gcd(e, phi) = 1, then there exists
+     *   an integer s such that as = 1 mod ( n). So if we find the linear combination
+     *   of e and phi, we will find the inverse, because we have already shown that 
+     *   gcd(e, phi) equals 1.
+     * ----------------------------------------------------------------------
+     *
+     *   Calculates the inverse
+     *
+     *   @param      e: the public key e which was calculated before
+     *   @param      phi: (p-1)(q-1)
+     *   @return     the inverse
+     */
 
-    public static Long findInverse(Long a, Long b)
+    public static Long findInverse(Long e, Long phi)
 	{
 		Long x = 0L, y = 1L, lastx = 1L, lasty = 0L;
-		while(b!=0)
+		while(phi!=0)
 		{
-			Long quotient = a/b;
+			Long quotient = e/phi;
 
-			Long temp = a;
-			a = b;
-			b=temp%b;
+			Long temp = e;
+			e = phi;
+			phi=temp%phi;
 
 			temp = x;
 			x=lastx-quotient*x;
@@ -215,7 +237,21 @@ public class HelperMethods {
 		return lastx;
 	}
     
-    
+    /*
+     * ----------------- THEORY & PRACTICAL EXPLANATION ---------------------
+     *  This methods decrypts the cipher using the decryption key d. It applies the method:
+     *  message = c^d mod n. As d might be too big, we split it as explained in the
+     *  theory chapter: solving the problem of big numbers, using the method
+     *  extendedModularArithmetic.
+     * ----------------------------------------------------------------------
+     *
+     *   Decrypts the message.
+     *
+     *   @param      cipher: the encrypted message
+     *   @param      decryptionKey: the decryption key
+     *   @param      n: p*q, a public key
+     *   @return     the original message
+     */
 
     public static ArrayList<Long> decrypt(ArrayList<Long> cipher, Long decryptionKey, Long n) {
         ArrayList<Long> decryptedMessage = new ArrayList<Long>();
@@ -278,36 +314,6 @@ public class HelperMethods {
         writer.close();
     }
 
-    /////// --------------------- /////////////
-    //          Backup Methods              //
-    ////// ---------------------- ////////////
-//    public static String encryptMess(Long m) // m is an array with ascii values
-//    {
-//        String s = "";
-//        Long y = mpmod(m,e,3233.0);
-//        s += y;
-//
-//        return s;
-//
-//    }
-//
-//    public static Double mpmod(Double base, Double exponent, Double modulus)
-//    {
-//        if ((base < 1) || (exponent < 0) || (modulus < 1))
-//        {
-//            return(0.0);
-//        }
-//        Double result = 1.0;
-//        while (exponent > 0)
-//        {
-//            if ((exponent % 2) == 1)
-//            {
-//                result = (result * base) % modulus;
-//            }
-//            base = (base * base) % modulus;
-//            exponent = Math.floor(exponent / 2);
-//        }
-//        return (result);
-//    }
+
 
 }
