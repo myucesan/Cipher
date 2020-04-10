@@ -177,7 +177,7 @@ public class EncodingController {
             messageToCipher.add(String.valueOf(cipher.intValue()));
         }
 
-        String cipher = String.join(" ", messageToCipher);
+        String cipher = String.join(",", messageToCipher);
         cipherTextbox.setText(cipher);
     }
 

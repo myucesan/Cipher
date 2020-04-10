@@ -96,6 +96,10 @@ public class HelperMethods {
             if (euclidAlgorithmGcd(phiNumber, e) == 1) {
                 listOfE.put(index, e);
                 index++;
+
+                if(listOfE.size() > 500) {
+                    break;
+                }
             }
         }
 
