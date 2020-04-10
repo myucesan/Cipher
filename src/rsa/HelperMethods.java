@@ -180,8 +180,11 @@ public class HelperMethods {
         Long p = primeNumbers.get(0);
         Long q = primeNumbers.get(1);
         Long phiNumber = (p - 1) * (q - 1);
-
-        return findInverse(e, phiNumber);
+        Long result = findInverse(e, phiNumber);
+        if (result < 0) {
+            result = result + phiNumber;
+        } 
+        return result;
 
     }
 
