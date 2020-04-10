@@ -192,29 +192,29 @@ public class HelperMethods {
         return extendedModularArithmetic(e, n-1, n);
     }
 
+    public static Long findInverse(Long a, Long b)
+	{
+		Long x = 0L, y = 1L, lastx = 1L, lasty = 0L;
+		while(b!=0)
+		{
+			Long quotient = a/b;
 
-    public static long findInverse(long e, long n)
-    {
-        long x = 0, y = 1, lastx = 1, lasty = 0;
-        while(n!=0)
-        {
-            long quotient = e/n;
+			Long temp = a;
+			a = b;
+			b=temp%b;
 
-            long temp = n;
-            e = n;
-            e=temp%n;
+			temp = x;
+			x=lastx-quotient*x;
+			lastx=temp;
 
-            temp = x;
-            x=lastx-quotient*x;
-            lastx=temp;
+			temp = y;
+			y=lasty-quotient*y;
+			lasty=temp;
+		}
 
-            temp = y;
-            y=lasty-quotient*y;
-            lasty=temp;
-        }
-
-        return lastx;
-    }
+		return lastx;
+	}
+    
     
 
     public static ArrayList<Long> decrypt(ArrayList<Long> cipher, Long decryptionKey, Long n) {
